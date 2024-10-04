@@ -1,13 +1,10 @@
-const express = require('express');
-const { createOrder, getOrders } = require('../controllers/orderController');
-const { authMiddleware } = require('../middlewares/authMiddleware');
-
+const express = require("express");
 const router = express.Router();
+const { createOrder, getOrders } = require("../controllers/orderController");
+const authMiddleware = require("../middlewares/authMiddleware");
 
-// Route to create a new order
-router.post('/', authMiddleware, createOrder);
+// Define the routes
+router.post("/", authMiddleware, createOrder);
+router.get("/", authMiddleware, getOrders);
 
-// Route to get all orders for a user
-router.get('/', authMiddleware, getOrders);
-
-module.exports = router; // Export the routes
+module.exports = router;

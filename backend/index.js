@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const orderRoutes = require("./routes/orderRoutes");
@@ -21,7 +21,7 @@ mongoose
   .catch((err) => console.log("Database connection error:", err));
 
 // Registering the API routes
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);

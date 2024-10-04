@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 // Register new user
 exports.register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   try {
     // Check if user already exists
@@ -18,11 +18,13 @@ exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create new user
-    user = new User({ name, email, password: hashedPassword });
+    user = new User({ name, email, password: hashedPassword, role: role || 'user' });
+    
+    // Save the user in the database
     await user.save();
 
     // Create and send JWT token
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(201).json({ token });
   } catch (error) {
     res.status(500).send('Server error');
@@ -47,9 +49,30 @@ exports.login = async (req, res) => {
     }
 
     // Create and send JWT token
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (error) {
     res.status(500).send('Server error');
   }
 };
+
+// Get user info
+exports.getUserInfo = async (req, res) => {
+  try {
+    // Find the user by ID and exclude the password from the returned object
+    const user = await User.findById(req.user.id).select("-password");
+
+    // Check if user was found
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Return user information
+    res.json(user);
+  } catch (error) {
+    // Log the error for debugging
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+

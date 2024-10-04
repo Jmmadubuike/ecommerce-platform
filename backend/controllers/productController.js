@@ -6,6 +6,7 @@ exports.getProducts = async (req, res) => {
     const products = await Product.find();
     res.json(products);
   } catch (error) {
+    console.error(error); // Log the error for debugging
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -19,6 +20,7 @@ exports.getProductById = async (req, res) => {
     }
     res.json(product);
   } catch (error) {
+    console.error(error); // Log the error for debugging
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -27,11 +29,17 @@ exports.getProductById = async (req, res) => {
 exports.createProduct = async (req, res) => {
   const { name, price, description, category, stock, imageUrl } = req.body;
 
+  // Simple validation
+  if (!name || !price || !description || !category || !stock || !imageUrl) {
+    return res.status(400).json({ message: 'Please fill all fields' });
+  }
+
   try {
     const newProduct = new Product({ name, price, description, category, stock, imageUrl });
     await newProduct.save();
     res.status(201).json(newProduct);
   } catch (error) {
+    console.error(error); // Log the error for debugging
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -41,9 +49,11 @@ exports.updateProduct = async (req, res) => {
   const { name, price, description, category, stock, imageUrl } = req.body;
 
   try {
-    const product = await Product.findByIdAndUpdate(req.params.id, {
-      name, price, description, category, stock, imageUrl
-    }, { new: true });
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      { name, price, description, category, stock, imageUrl },
+      { new: true }
+    );
 
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
@@ -51,6 +61,7 @@ exports.updateProduct = async (req, res) => {
 
     res.json(product);
   } catch (error) {
+    console.error(error); // Log the error for debugging
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -64,6 +75,7 @@ exports.deleteProduct = async (req, res) => {
     }
     res.json({ message: 'Product deleted successfully' });
   } catch (error) {
+    console.error(error); // Log the error for debugging
     res.status(500).json({ message: 'Server error' });
   }
 };
