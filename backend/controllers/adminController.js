@@ -31,7 +31,8 @@ exports.createProduct = [
             await product.save();
             res.status(201).json(product);
         } catch (err) {
-            res.status(500).json({ message: err.message });
+            console.error(err); // Log the error for debugging
+            res.status(500).json({ message: 'Failed to create product' });
         }
     }
 ];
@@ -54,6 +55,7 @@ exports.updateOrderStatus = async (req, res) => {
         await order.save();
         res.json(order);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        console.error(err); // Log the error for debugging
+        res.status(500).json({ message: 'Failed to update order status' });
     }
 };

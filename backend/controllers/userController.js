@@ -60,7 +60,7 @@ exports.login = async (req, res) => {
 exports.getUserInfo = async (req, res) => {
   try {
     // Find the user by ID and exclude the password from the returned object
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id).select("-password -_id -__v");
 
     // Check if user was found
     if (!user) {

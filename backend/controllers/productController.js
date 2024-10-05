@@ -1,10 +1,19 @@
 const Product = require('../models/Product');
+const moment = require('moment'); // Import moment
 
 // Get all products
 exports.getProducts = async (req, res) => {
   try {
-    const products = await Product.find();
-    res.json(products);
+    const products = await Product.find().select("-_id -__v");
+    
+    // Format timestamps for each product
+    const formattedProducts = products.map(product => ({
+      ...product._doc, // Spread the existing product properties
+      createdAt: moment(product.createdAt).format('MMMM Do YYYY, h:mm:ss a'), // Format createdAt
+      updatedAt: moment(product.updatedAt).format('MMMM Do YYYY, h:mm:ss a') // Format updatedAt
+    }));
+
+    res.json(formattedProducts);
   } catch (error) {
     console.error(error); // Log the error for debugging
     res.status(500).json({ message: 'Server error' });
@@ -14,11 +23,19 @@ exports.getProducts = async (req, res) => {
 // Get single product by ID
 exports.getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).select("-_id -__v");
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    res.json(product);
+    
+    // Format timestamps
+    const formattedProduct = {
+      ...product._doc,
+      createdAt: moment(product.createdAt).format('MMMM Do YYYY, h:mm:ss a'), // Format createdAt
+      updatedAt: moment(product.updatedAt).format('MMMM Do YYYY, h:mm:ss a') // Format updatedAt
+    };
+
+    res.json(formattedProduct);
   } catch (error) {
     console.error(error); // Log the error for debugging
     res.status(500).json({ message: 'Server error' });
@@ -37,7 +54,15 @@ exports.createProduct = async (req, res) => {
   try {
     const newProduct = new Product({ name, price, description, category, stock, imageUrl });
     await newProduct.save();
-    res.status(201).json(newProduct);
+    
+    // Format timestamps
+    const formattedProduct = {
+      ...newProduct._doc,
+      createdAt: moment(newProduct.createdAt).format('MMMM Do YYYY, h:mm:ss a'),
+      updatedAt: moment(newProduct.updatedAt).format('MMMM Do YYYY, h:mm:ss a')
+    };
+
+    res.status(201).json(formattedProduct);
   } catch (error) {
     console.error(error); // Log the error for debugging
     res.status(500).json({ message: 'Server error' });
@@ -59,7 +84,14 @@ exports.updateProduct = async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    res.json(product);
+    // Format timestamps
+    const formattedProduct = {
+      ...product._doc,
+      createdAt: moment(product.createdAt).format('MMMM Do YYYY, h:mm:ss a'),
+      updatedAt: moment(product.updatedAt).format('MMMM Do YYYY, h:mm:ss a')
+    };
+
+    res.json(formattedProduct);
   } catch (error) {
     console.error(error); // Log the error for debugging
     res.status(500).json({ message: 'Server error' });
