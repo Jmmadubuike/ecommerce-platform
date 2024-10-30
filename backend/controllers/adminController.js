@@ -31,7 +31,7 @@ exports.createProduct = [
             await product.save();
             res.status(201).json(product);
         } catch (err) {
-            console.error(err); // Log the error for debugging
+            console.error(err); 
             res.status(500).json({ message: 'Failed to create product' });
         }
     }
@@ -41,7 +41,7 @@ exports.createProduct = [
 exports.updateOrderStatus = async (req, res) => {
     const { orderId, status } = req.body;
 
-    const validStatuses = ['pending', 'shipped', 'delivered', 'cancelled']; // Define valid statuses
+    const validStatuses = ['pending', 'shipped', 'delivered', 'cancelled']; 
 
     if (!validStatuses.includes(status)) {
         return res.status(400).json({ message: 'Invalid status provided' });
@@ -55,7 +55,7 @@ exports.updateOrderStatus = async (req, res) => {
         await order.save();
         res.json(order);
     } catch (err) {
-        console.error(err); // Log the error for debugging
+        console.error(err); 
         res.status(500).json({ message: 'Failed to update order status' });
     }
 };

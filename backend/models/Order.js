@@ -11,12 +11,12 @@ const orderSchema = new mongoose.Schema(
           required: true,
         },
         quantity: { type: Number, required: true },
-        price: { type: Number, required: true }, // Store individual item price
+        price: { type: Number, required: true },
       },
     ],
     shippingAddress: { type: String, required: true },
     paymentMethod: { type: String, required: true },
-    totalPrice: { type: Number, required: true }, // Total price of the entire order
+    totalPrice: { type: Number, required: true },
     status: {
       type: String,
       enum: ["pending", "shipped", "delivered", "cancelled"],

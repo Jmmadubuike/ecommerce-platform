@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middlewares/authMiddleware");
-const UserController = require("../controllers/UserController"); // Ensure the path is correct
+const UserController = require("../controllers/userController");
 
 // Register new user
 router.post("/register", UserController.register);
@@ -10,6 +10,6 @@ router.post("/register", UserController.register);
 router.post("/login", UserController.login);
 
 // Get user info (protected route)
-router.get("/me", authMiddleware, UserController.getUserInfo); // Ensure this points to a valid function
+router.get("/profile", authMiddleware, UserController.getUserInfo);
 
 module.exports = router;

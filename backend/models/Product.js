@@ -22,7 +22,7 @@ const ProductSchema = new mongoose.Schema(
     stock: {
       type: Number,
       required: true,
-      default: 0, // Default stock is 0
+      default: 0,
     },
     imageUrl: {
       type: String,
@@ -30,6 +30,6 @@ const ProductSchema = new mongoose.Schema(
     },
   },
   { timestamps: true }
-); // Automatically manage createdAt and updatedAt fields
+);
 
-module.exports = mongoose.model("Product", ProductSchema); // Export the Product model
+module.exports = mongoose.model("Product", ProductSchema);

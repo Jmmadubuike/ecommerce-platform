@@ -37,15 +37,15 @@ const createOrder = async (req, res) => {
           .json({ message: `Product not found: ${item.product}` });
       }
 
-      const price = product.price || 0; // Fallback to 0 if price is undefined
+      const price = product.price || 0; 
 
       items.push({
         product: item.product,
         quantity: item.quantity,
-        price, // Ensure price is retrieved correctly
+        price, 
       });
 
-      totalPrice += price * item.quantity; // Calculate total price
+      totalPrice += price * item.quantity; 
     }
 
     // Create the order
@@ -54,15 +54,15 @@ const createOrder = async (req, res) => {
       items,
       shippingAddress,
       paymentMethod,
-      totalPrice: totalPrice || 0, // Ensure totalPrice is not NaN
+      totalPrice: totalPrice || 0, 
     });
 
     await order.save();
-    await Cart.findOneAndDelete({ user: userId }); // Clear cart after order
+    await Cart.findOneAndDelete({ user: userId }); 
 
     res.status(201).json(order);
   } catch (err) {
-    console.error(err); // Log the error for debugging
+    console.error(err);
     res.status(500).json({ message: err.message });
   }
 };

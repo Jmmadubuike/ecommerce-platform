@@ -27,4 +27,4 @@ router.put('/:id', authMiddleware, adminMiddleware, updateProduct);
 // Route to delete a product (Admin only)
 router.delete('/:id', authMiddleware, adminMiddleware, deleteProduct);
 
-module.exports = router; // Export the routes
+module.exports = router;

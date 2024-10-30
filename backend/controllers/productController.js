@@ -1,5 +1,5 @@
 const Product = require('../models/Product');
-const moment = require('moment'); // Import moment
+const moment = require('moment');
 
 // Get all products
 exports.getProducts = async (req, res) => {
@@ -9,13 +9,13 @@ exports.getProducts = async (req, res) => {
     // Format timestamps for each product
     const formattedProducts = products.map(product => ({
       ...product._doc, // Spread the existing product properties
-      createdAt: moment(product.createdAt).format('MMMM Do YYYY, h:mm:ss a'), // Format createdAt
-      updatedAt: moment(product.updatedAt).format('MMMM Do YYYY, h:mm:ss a') // Format updatedAt
+      createdAt: moment(product.createdAt).format('MMMM Do YYYY, h:mm:ss a'),
+      updatedAt: moment(product.updatedAt).format('MMMM Do YYYY, h:mm:ss a') 
     }));
 
     res.json(formattedProducts);
   } catch (error) {
-    console.error(error); // Log the error for debugging
+    console.error(error); 
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -31,13 +31,13 @@ exports.getProductById = async (req, res) => {
     // Format timestamps
     const formattedProduct = {
       ...product._doc,
-      createdAt: moment(product.createdAt).format('MMMM Do YYYY, h:mm:ss a'), // Format createdAt
-      updatedAt: moment(product.updatedAt).format('MMMM Do YYYY, h:mm:ss a') // Format updatedAt
+      createdAt: moment(product.createdAt).format('MMMM Do YYYY, h:mm:ss a'),
+      updatedAt: moment(product.updatedAt).format('MMMM Do YYYY, h:mm:ss a') 
     };
 
     res.json(formattedProduct);
   } catch (error) {
-    console.error(error); // Log the error for debugging
+    console.error(error); 
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -64,7 +64,7 @@ exports.createProduct = async (req, res) => {
 
     res.status(201).json(formattedProduct);
   } catch (error) {
-    console.error(error); // Log the error for debugging
+    console.error(error); 
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -93,7 +93,7 @@ exports.updateProduct = async (req, res) => {
 
     res.json(formattedProduct);
   } catch (error) {
-    console.error(error); // Log the error for debugging
+    console.error(error); 
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -107,7 +107,7 @@ exports.deleteProduct = async (req, res) => {
     }
     res.json({ message: 'Product deleted successfully' });
   } catch (error) {
-    console.error(error); // Log the error for debugging
+    console.error(error); 
     res.status(500).json({ message: 'Server error' });
   }
 };

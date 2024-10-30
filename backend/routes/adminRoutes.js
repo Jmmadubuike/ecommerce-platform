@@ -8,6 +8,6 @@ const router = express.Router();
 router.post('/products', adminMiddleware, createProduct);
 
 // Route to update order status (Admin only)
-router.patch('/orders/status', adminMiddleware, updateOrderStatus); // Consider using PATCH for updates
+router.patch('/orders/status', adminMiddleware, updateOrderStatus);
 
-module.exports = router; // Export the routes
+module.exports = router;

@@ -63,7 +63,6 @@ exports.removeFromCart = async (req, res) => {
       return res.status(404).json({ message: "Cart not found" });
     }
 
-    // Find the index of the item to remove
     const itemIndex = cart.items.findIndex(
       (item) => item.product.toString() === req.params.id
     );
@@ -71,7 +70,7 @@ exports.removeFromCart = async (req, res) => {
     if (itemIndex > -1) {
       // Remove the item from the cart
       cart.items.splice(itemIndex, 1);
-      // If the cart is empty, you may choose to delete it
+      // If the cart is empty, i may choose to delete it
       if (cart.items.length === 0) {
         await cart.remove(); // Optionally delete the cart if empty
         return res.status(200).json({ message: "Cart is empty now" });
@@ -82,7 +81,7 @@ exports.removeFromCart = async (req, res) => {
       return res.status(404).json({ message: "Item not found in cart" });
     }
   } catch (error) {
-    console.error(error); // Log error for debugging
+    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
